@@ -9,7 +9,7 @@ import argparse
 import tensorflow as tf
 from model import ResUnet
 from loss import Tanimoto_dual_loss
-from tf.keras.optimizers import *
+from keras.optimizers import *
 from batch_preprocess import DataParser
 
 loss = Tanimoto_dual_loss()
@@ -84,7 +84,11 @@ def generate_minibatches(dataParser, train=True):
             batch_ids = np.random.choice(dataParser.validation_ids, dataParser.batch_size, replace=False)
         images, labels = dataParser.get_batch(batch_ids)
         yield(images, labels)
-
+ejemplo = next(generate_minibatches(dataParser))
+ejemplo2=model(ejemplo[0])
+#print(ejemplo[1]['segmentation'].shape,ejemplo[1]['boundary'].shape,ejemplo[1]['distance'].shape, dataParser.steps_per_epoch) #'segmentation', 'boundary', 'distance'
+#print(ejemplo2['seg'].shape,ejemplo2['bound'].shape,ejemplo2['dist'].shape)#model(ejemplo[0])
+#exit()
 model.fit_generator(generate_minibatches(dataParser),
                         steps_per_epoch=dataParser.steps_per_epoch,
                         epochs=args.epochs,
