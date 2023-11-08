@@ -86,9 +86,7 @@ def generate_minibatches(dataParser, train=True):
         yield(images, labels)
 ejemplo = next(generate_minibatches(dataParser))
 ejemplo2=model(ejemplo[0])
-#print(ejemplo[1]['segmentation'].shape,ejemplo[1]['boundary'].shape,ejemplo[1]['distance'].shape, dataParser.steps_per_epoch) #'segmentation', 'boundary', 'distance'
-#print(ejemplo2['seg'].shape,ejemplo2['bound'].shape,ejemplo2['dist'].shape)#model(ejemplo[0])
-#exit()
+
 model.fit_generator(generate_minibatches(dataParser),
                         steps_per_epoch=dataParser.steps_per_epoch,
                         epochs=args.epochs,
